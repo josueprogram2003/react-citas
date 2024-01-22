@@ -12,6 +12,12 @@ export function Formulario ({setPacientes,pacientes}){
   const [sintomas,setSintomas] = useState('')
   const [error, setError] = useState(false)
   
+  const generarId = () =>{
+    const random = Math.random().toString(36).substr(2)
+    const fecha = Date.now().toString(36);
+    return random +fecha
+  }
+
   const handleSubmit = (e) =>{
     e.preventDefault();
     if ([nombre, propietario, email, alta, sintomas].includes('')) {
@@ -21,15 +27,20 @@ export function Formulario ({setPacientes,pacientes}){
     setError(false)
 
     // objeto de paciente
-    const paciente = {
-      nombre,propietario,email,alta,sintomas
-    }
-    setPacientes([... pacientes, paciente]);
-
-    setNombre('')
-    setEmail('')
-    setSintomas('')
-    setPropietario('')
+  const paciente = {
+    nombre,
+    propietario,
+    email,
+    alta,
+    sintomas,
+    id:generarId()
+  };
+  setNombre('');
+  setPropietario('');
+  setEmail('');
+  setSintomas('');
+  setAlta('');
+  setPacientes([...pacientes, paciente]);
   }
 
   return (

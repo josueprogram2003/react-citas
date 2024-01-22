@@ -11,7 +11,7 @@ function App() {
       <Header></Header>
       <div className='2xl:mt-10 lg:mt-5 md:flex'>
         <Formulario  pacientes={pacientes} setPacientes={setPacientes}></Formulario>
-        <ListadoPacientes></ListadoPacientes>
+        <ListadoPacientes pacientes={pacientes}></ListadoPacientes>
       </div>
     </div>
   )

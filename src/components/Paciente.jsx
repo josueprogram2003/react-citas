@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
-// eslint-disable-next-line react/prop-types
-export const  Paciente = ({paciente}) =>{
+export const  Paciente = ({paciente,setPaciente}) =>{
+
+
+
   return(
-     <div className="bg-white shadow-md rounded-lg py-5 px-5 m-3">
+    <div className="bg-white shadow-md rounded-lg py-5 px-5 m-3">
         <p className="block text-gray-700 uppercase font-bold lg:text-sm mb-2" >NOMBRE: {""}
           <span className="font-normal normal-case">{paciente.nombre}</span>
         </p>
@@ -18,6 +20,10 @@ export const  Paciente = ({paciente}) =>{
          <p className="block text-gray-700 uppercase font-bold lg:text-sm mb-2" >SINTOMAS: {""}
           <span className="font-normal normal-case">{paciente.sintomas}</span>
         </p>
+        <div className="flex justify-between">
+          <button type="button" className="py-2 px-10 me-3 bg-indigo-600 hover:bg-indigo-700  text-white font-bold uppercase rounded-lg" onClick={()=>setPaciente(paciente)}  >Editar</button>
+          <button type="button"  className="py-2 px-10 bg-red-600 hover:bg-red-700  text-white font-bold uppercase rounded-lg">Eliminar</button>
+        </div>
       </div>
   )
 }

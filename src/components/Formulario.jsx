@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react"
 import { Error } from './Error'; // Asegúrate de que la E en Error está en mayúscula
 
-
-// eslint-disable-next-line react/prop-types
-export function Formulario ({setPacientes,pacientes}){
+export function Formulario ({setPacientes,pacientes,pacienteRaw}){
 
   const [nombre,setNombre] = useState('')
   const [propietario,setPropietario] = useState('')
@@ -11,7 +9,6 @@ export function Formulario ({setPacientes,pacientes}){
   const [alta,setAlta] = useState('')
   const [sintomas,setSintomas] = useState('')
   const [error, setError] = useState(false)
-  
   const generarId = () =>{
     const random = Math.random().toString(36).substr(2)
     const fecha = Date.now().toString(36);
@@ -43,6 +40,11 @@ export function Formulario ({setPacientes,pacientes}){
   setPacientes([...pacientes, paciente]);
   }
 
+  useEffect(()=>{
+    //Se va a ejecutar cada vez que se modifique el prop paciente
+    console.log(`Pacientes: ${pacienteRaw}`)
+  },[pacienteRaw])
+
   return (
     <div className="md:w-1/2 lg:w-2/5">
       <h2 className="font-black 2xl:text-3xl lg:text-2xl text-center">Seguimiento Pacientes</h2>      
@@ -55,23 +57,23 @@ export function Formulario ({setPacientes,pacientes}){
         }
         <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="mascota" className="block text-gray-700 uppercase font-bold lg:text-sm">Nombre Mascota </label>
-          <input type="text" id="mascota" placeholder="Nombre de la mascota" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" value={nombre} onChange={(e)=> setNombre(e.target.value)}/>
+          <input type="text" id="mascota" placeholder="Nombre de la mascota" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="mascota" value={nombre} onChange={(e)=> setNombre(e.target.value)}/>
         </div>
         <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="propietario" className="block text-gray-700 uppercase font-bold lg:text-sm">Nombre Propietario</label>
-          <input type="text" id="propietario" placeholder="Nombre del propietario" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" onChange={(e)=> setPropietario(e.target.value)}/>
+          <input type="text" id="propietario" placeholder="Nombre del propietario" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="propietario" onChange={(e)=> setPropietario(e.target.value)}/>
         </div>
         <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="email" className="block text-gray-700 uppercase font-bold lg:text-sm">Email</label>
-          <input type="email" id="email" placeholder="Email" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" onChange={(e)=> setEmail(e.target.value)}/>
+          <input type="email" id="email" placeholder="Email" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="email" onChange={(e)=> setEmail(e.target.value)}/>
         </div>
          <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="alta" className="block text-gray-700 uppercase font-bold lg:text-sm">Alta</label>
-          <input type="date" id="alta"  className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" onChange={(e)=> setAlta(e.target.value)}/>
+          <input type="date" id="alta"  className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="alta" onChange={(e)=> setAlta(e.target.value)}/>
         </div>
           <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="sintomas" className="block text-gray-700 uppercase font-bold lg:text-sm">Sintomas</label>
-          <textarea name="sintomas" id="sintomas" placeholder="Escribe los sintomas" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" onChange={(e)=> setSintomas(e.target.value)}></textarea>
+          <textarea name="sintomas" id="sintomas" placeholder="Escribe los sintomas" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md"  onChange={(e)=> setSintomas(e.target.value)}></textarea>
         </div>
          <div>
           <button type="submit"  className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 bg-indigo-600 text-white rounded-md font-bold hover:bg-indigo-700 cursor-pointer transition-colors">Agregar</button>

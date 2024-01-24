@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Error } from './Error'; // Asegúrate de que la E en Error está en mayúscula
 
-export function Formulario ({setPacientes,pacientes,pacienteRaw}){
+export function Formulario ({setPacientes,pacientes,pacienteRaw,setPaciente}){
 
   const [nombre,setNombre] = useState('')
   const [propietario,setPropietario] = useState('')
@@ -37,12 +37,27 @@ export function Formulario ({setPacientes,pacientes,pacienteRaw}){
   setEmail('');
   setSintomas('');
   setAlta('');
-  setPacientes([...pacientes, paciente]);
+  if (pacienteRaw.id && pacienteRaw != undefined) {
+     paciente.id = pacienteRaw.id;
+     const pacienteActualizado = pacientes.map(pacienteState => pacienteState.id === pacienteRaw.id ? paciente : pacienteState)
+     setPacientes(pacienteActualizado)
+     setPaciente({})
+  }else{
+    setPacientes([...pacientes, paciente]);
+  }
   }
 
   useEffect(()=>{
     //Se va a ejecutar cada vez que se modifique el prop paciente
-    console.log(`Pacientes: ${pacienteRaw}`)
+   if (Object.keys(pacienteRaw).length > 0 && pacienteRaw != undefined) {
+    setNombre(pacienteRaw.nombre);
+    setEmail(pacienteRaw.email);
+    setSintomas(pacienteRaw.sintomas);
+    setPropietario(pacienteRaw.propietario);
+    setAlta(pacienteRaw.alta);
+   }else{
+    console.log("No hay nada")
+   }
   },[pacienteRaw])
 
   return (
@@ -61,22 +76,22 @@ export function Formulario ({setPacientes,pacientes,pacienteRaw}){
         </div>
         <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="propietario" className="block text-gray-700 uppercase font-bold lg:text-sm">Nombre Propietario</label>
-          <input type="text" id="propietario" placeholder="Nombre del propietario" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="propietario" onChange={(e)=> setPropietario(e.target.value)}/>
+          <input type="text" id="propietario" placeholder="Nombre del propietario" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" value={propietario} name="propietario" onChange={(e)=> setPropietario(e.target.value)}/>
         </div>
         <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="email" className="block text-gray-700 uppercase font-bold lg:text-sm">Email</label>
-          <input type="email" id="email" placeholder="Email" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="email" onChange={(e)=> setEmail(e.target.value)}/>
+          <input type="email" id="email" placeholder="Email" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="email" onChange={(e)=> setEmail(e.target.value)} value={email}/>
         </div>
          <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="alta" className="block text-gray-700 uppercase font-bold lg:text-sm">Alta</label>
-          <input type="date" id="alta"  className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="alta" onChange={(e)=> setAlta(e.target.value)}/>
+          <input type="date" id="alta"  className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md" name="alta" onChange={(e)=> setAlta(e.target.value)} value={alta}/>
         </div>
           <div className="2xl:mb-4 lg:mb-2">
           <label htmlFor="sintomas" className="block text-gray-700 uppercase font-bold lg:text-sm">Sintomas</label>
-          <textarea name="sintomas" id="sintomas" placeholder="Escribe los sintomas" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md"  onChange={(e)=> setSintomas(e.target.value)}></textarea>
+          <textarea name="sintomas" id="sintomas" placeholder="Escribe los sintomas" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 placeholder-gray-400 rounded-md"  onChange={(e)=> setSintomas(e.target.value)} value={sintomas}></textarea>
         </div>
          <div>
-          <button type="submit"  className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 bg-indigo-600 text-white rounded-md font-bold hover:bg-indigo-700 cursor-pointer transition-colors">Agregar</button>
+          <input type="submit" className="border-2 w-full 2xl:p-2 lg:p-1 mt-2 bg-indigo-600 text-white rounded-md font-bold hover:bg-indigo-700 cursor-pointer transition-colors" value={pacienteRaw.id ? 'Editar Paciente': 'Agregar Paciente'} />
         </div>
       </form>
     </div>
